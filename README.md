@@ -10,7 +10,7 @@ This is a great tool to visually see how learning rate is important as seen belo
 
 ![](https://github.com/mehmetcanakbay/neuralnetworkviz/blob/main/media/lr_example_gif2.gif)
 
-Also you can weights shifting in real time.
+Also you can see the weights shifting in real time.
 ##### TODO
 - Adding new losses
 - Let the user decide the input size
