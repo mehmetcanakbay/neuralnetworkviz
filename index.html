@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-2.12.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Keania+One&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark text-white">
+        <a class="navbar-brand">Neural Network Visualizer</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <button class="btn btn-primary" onclick="StartUpdating()">Continue</button>
+                <button class="btn btn-secondary" onclick="StopUpdating()">Stop</button>
+                <button class="btn btn-danger" onclick="create_weights()">Restart Weights</button>
+                <button class="btn btn-secondary" onclick="create_plot()">Reset Plot</button>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="plot"></div>
+
+    <div class="row col-md-12">
+        <div class="col-md-4">
+            <form class="form-group">
+                <div class="form-group row">
+                    <label for="var_input" class="col-sm-4 col-form-label">Number to predict:</label>
+                    <div class="col-sm-6">
+                        <input type="number" id="var_input" class="form-control" value="2">
+                    </div>
+                </div>
+    
+                <div class="form-group row">
+                    <label for="lr_input" class="col-sm-4 col-form-label">Learning rate: </label>
+                    <div class="col-sm-6">
+                        <input type="number" id="lr_input" class="form-control" value="1e-6">
+                    </div>
+                </div>
+            </form>
+        
+            <h3 id="predicting_variable_notif">Predicting variable: </h3>
+            <h3 id="output_title">Current output: </h3>
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="btn-group dropleft row col-md-2">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Weights
+                    </a>
+    
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <button class="dropdown-item" type="button" onclick="current_weights_selected = 0">Weight-1 (100x10 DIMENSIONS) 10 NEURON</button>
+                        <button class="dropdown-item" type="button" onclick="current_weights_selected = 1">Weight-2 (10x10 DIMENSIONS) 10 NEURON</button>
+                        <button class="dropdown-item" type="button" onclick="current_weights_selected = 2">Weight-3 (10x20 DIMENSIONS) 20 NEURON</button>
+                        <button class="dropdown-item" type="button" onclick="current_weights_selected = 3">Weight-4 (20x1 DIMENSIONS) 1 NEURON</button>
+                    </div>
+                </div>
+                <div class="row col-md-4" >
+                    <h3 id="selected_weight">Showing: </h3>
+                </div>
+
+            </div>
+            <br>
+            <p id="weights_latex"></p>
+            
+        </div>
+        
+        
+    </div>
+    
+    <!-- <div id="testing_tex"></div> -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="neural_script.js"></script>
+
+
+      
+</body>
+
+</html>

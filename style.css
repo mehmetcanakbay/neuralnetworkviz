@@ -1,0 +1,19 @@
+/* body {
+    font-family: Roboto;
+} */
+.lower_description {
+    margin:1.5rem;
+}
+
+.input_variables {
+    width:110%;
+}
+
+
+.base {
+    overflow:auto;
+    /* width: 50%; */
+    height: 80%;
+    width:50em;
+    background-color: aqua;
+}
