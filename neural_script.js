@@ -7,11 +7,35 @@ function CreateMatrixGivenROW_COL(x, y) {
 }
 
 function create_weights() {
-    input_arr = CreateMatrixGivenROW_COL(1,25) //1,100
-    w1 = CreateMatrixGivenROW_COL(25,10) //1, 10
+    input_arr = CreateMatrixGivenROW_COL(1,input_size) //1,100
+    w1 = CreateMatrixGivenROW_COL(input_size,10) //1, 10
     w2 = CreateMatrixGivenROW_COL(10, 10) //1, 10
     w3 = CreateMatrixGivenROW_COL(10, 20) //1, 20
     w4 = CreateMatrixGivenROW_COL(20, 1) // 1, 1
+}
+
+function relu(MATRIX) {
+    for (let i = 0; i<MATRIX.length; i++) {
+        for (let j = 0; j < MATRIX[i].length; j++) {
+            if (MATRIX[i][j] < 0) {
+                MATRIX[i][j] = 0
+            }
+        }
+    }
+    return MATRIX
+}
+
+function relu_derivative(MATRIX) {
+    for (let i = 0; i<MATRIX.length; i++) {
+        for (let j = 0; j < MATRIX[i].length; j++) {
+            if (MATRIX[i][j] < 0) {
+                MATRIX[i][j] = 0
+            } else {
+                MATRIX[i][j] = 1
+            }
+        }
+    }
+    return MATRIX
 }
 
 //author:@fmaul
@@ -20,6 +44,7 @@ dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
 transpose = a => a[0].map((x, i) => a.map(y => y[i]));
 //endauthor
 
+elementwise_mm = (a,b) => a.map((x,i) => x.map((t,j) => a[i][j] * b[i][j]))
 msub = (a,b) => a.map((x,i) => x.map((t,j) => a[i][j] - b[i][j]))
 arr_mul = (a,b) => a.map((x,i) => x.map((t,j) => t*b))
 
@@ -33,24 +58,28 @@ function predict() {
 
 function trainstep(ytrue) {
     let mul1 = mmultiply(input_arr, w1) // 1,10
-    let mul2 = mmultiply(mul1, w2) // 1,10 
-    let mul3 = mmultiply(mul2, w3) // 1,20
-    let y_hat = mmultiply(mul3, w4) // 1,1
+    let mul1_act = relu(mul1)
+    let mul2 = mmultiply(mul1_act, w2) // 1,10 
+    let mul2_act = relu(mul2)
+    let mul3 = mmultiply(mul2_act, w3) // 1,20
+    let mul3_act = relu(mul3)
+    let y_hat = mmultiply(mul3_act, w4) // 1,1
 
-    let mse_error = ((ytrue-y_hat)**2) / 100
+    let mse_error = ((ytrue-y_hat)**2) / input_size
 
-    let mse_deriv = -2/100 * (ytrue-y_hat)
+    let mse_deriv = -2/input_size * (ytrue-y_hat)
     let dE_w4 = mmultiply(transpose(mul3), [[mse_deriv]]) //20, 1 x 1,1 == 20,1
 
-
-    let dE_mul3 = mmultiply([[mse_deriv]], transpose(w4)) //1,20 
+    let dE_mul3 = elementwise_mm(mmultiply([[mse_deriv]], transpose(w4)), relu_derivative(mul3)) //1,20 
     let dE_w3 = mmultiply(transpose(mul2), dE_mul3)  //10,1x1,20 == 10,20
 
-    let dE_mul2 = mmultiply(dE_mul3,transpose(w3)) //1,20 x 20, 10 == 1, 10
-    let dE_w2 = mmultiply(transpose(mul1), dE_mul2) //10,1 x 1,10 == 10, 10
+    let dE_mul2 = elementwise_mm(mmultiply(dE_mul3,transpose(w3)), relu_derivative(mul2)) //1,20 x 20, 10 == 1, 10
+    let dE_w2 = mmultiply(transpose(mul1), dE_mul2)  //10,1x1,20 == 10,20
 
-    let dE_mul1 = mmultiply(dE_mul2, transpose(w2)) // 1,10 x 10,10 == 1,10
-    let dE_w1 = mmultiply(transpose(input_arr),dE_mul1) // 100,1 x 1, 10
+
+    let dE_mul1 = elementwise_mm(mmultiply(dE_mul2, transpose(w2)), relu_derivative(mul1)) // 1,10 x 10,10 == 1,10
+    let dE_w1 = mmultiply(transpose(input_arr),dE_mul1) //10,1x1,20 == 10,20
+
     
     w4 = msub(w4, arr_mul(dE_w4,lr))
     w3 = msub(w3, arr_mul(dE_w3,lr))
@@ -148,6 +177,7 @@ function StartUpdating() {
     }, 200)
 }
 
+var input_size = 25
 var current_weights_selected = 2
 lr = 1e-6
 
