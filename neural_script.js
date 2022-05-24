@@ -48,9 +48,9 @@ msub = (a,b) => a.map((x,i) => x.map((t,j) => a[i][j] - b[i][j]))
 arr_mul = (a,b) => a.map((x,i) => x.map((t,j) => t*b))
 
 function predict() {
-    let mul1 = mmultiply(input_arr, w1) // 1,10
-    let mul2 = mmultiply(mul1, w2) // 1,10 
-    let mul3 = mmultiply(mul2, w3) // 1,20
+    let mul1 = relu(mmultiply(input_arr, w1)) // 1,10
+    let mul2 = relu(mmultiply(mul1, w2)) // 1,10 
+    let mul3 = relu(mmultiply(mul2, w3)) // 1,20
     let y_hat = mmultiply(mul3, w4) // 1,1
     return y_hat
 }
