@@ -10,9 +10,15 @@
 }
 
 
-.base {
+.weights_latex_p .base {
     overflow:auto;
     /* width: 50%; */
     height: 80%;
     width:50em;
+}
+
+.input_latex_p {
+    overflow:auto;
+    width:50em;
+    margin: 0
 }

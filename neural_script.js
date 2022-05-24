@@ -7,7 +7,6 @@ function CreateMatrixGivenROW_COL(x, y) {
 }
 
 function create_weights() {
-    input_arr = CreateMatrixGivenROW_COL(1,input_size) //1,100
     w1 = CreateMatrixGivenROW_COL(input_size,10) //1, 10
     w2 = CreateMatrixGivenROW_COL(10, 10) //1, 10
     w3 = CreateMatrixGivenROW_COL(10, 20) //1, 20
@@ -104,18 +103,18 @@ function create_plot() {
     }];
 
     var layout = {
-        autosize:false,
-        width:800,
-        height:500,
         yaxis: {
             title: "Loss"
         },
         xaxis: {
             title: "Trainstep"
         }
-    }
+    };
 
-    Plotly.newPlot('plot', data, layout);
+    var config = {
+        responsive: true
+    }
+    Plotly.newPlot('plot', data, layout, config);
 }
 
 function StopUpdating() {
@@ -164,6 +163,7 @@ function StartUpdating() {
     update_interval = setInterval(()=>{
         y_true = document.getElementById("var_input").value
         lr = document.getElementById("lr_input").value
+        refresh_every_in_ms = document.getElementById("refresh").value
         document.getElementById("predicting_variable_notif").innerHTML = `Predicting variable: ${y_true}`
         document.getElementById("selected_weight").innerHTML = `Showing: ${get_current_selected_weight_name()}` 
         let y_ = trainstep_10(y_true)
@@ -174,14 +174,17 @@ function StartUpdating() {
 
         katex.render(lat, document.getElementById("weights_latex"));
 
-    }, 200)
+    }, refresh_every_in_ms)
 }
 
 var input_size = 25
 var current_weights_selected = 2
+var refresh_every_in_ms = 200
 lr = 1e-6
 
+input_arr = CreateMatrixGivenROW_COL(1,input_size) //1,100
 create_weights()
+katex.render(create_latex_version_of_matrix(input_arr), document.getElementById("input_latex"), {displayMode:true})
 y_true = 2
 document.getElementById("predicting_variable_notif").innerHTML = `Predicting variable: ${y_true}`
 

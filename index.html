@@ -25,7 +25,13 @@
         </ul>
     </nav>
 
-    <div id="plot"></div>
+    <div class="row col md-12" style="height:27em; margin-top:1em">
+        <div class="col-md-4" id="plot"></div>
+        <div class="col-md-8">
+            <h3>Input array: </h3>
+            <p class="input_latex_p" id="input_latex"></p>
+        </div>
+    </div>
 
     <div class="row col-md-12">
         <div class="col-md-4">
@@ -43,8 +49,15 @@
                         <input type="number" id="lr_input" class="form-control" value="1e-6">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="refresh" class="col-sm-4 col-form-label">Refresh in every ms: </label>
+                    <div class="col-sm-6">
+                        <input type="number" id="refresh" class="form-control" value="200">
+                    </div>
+                </div>
             </form>
-        
+            <h6>Stop and continue for refresh changes to take effect</h6>
+            <br>
             <h3 id="predicting_variable_notif">Predicting variable: </h3>
             <h3 id="output_title">Current output: </h3>
         </div>
@@ -69,7 +82,7 @@
 
             </div>
             <br>
-            <p id="weights_latex"></p>
+            <p class="weights_latex_p" id="weights_latex"></p>
             
         </div>
         
