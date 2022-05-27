@@ -23,6 +23,18 @@
                 <button class="btn btn-secondary" onclick="create_plot()">Reset Plot</button>
             </li>
         </ul>
+        <div class="btn-group dropdown col-md-3" style="flex: 0">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Weights
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <button class="dropdown-item" type="button" onclick="selected_loss_fn=0">Mean Squared Error</button>
+                <button class="dropdown-item" type="button" onclick="selected_loss_fn=1">Root Mean Squared Error</button>
+                <button class="dropdown-item" type="button" onclick="selected_loss_fn=2">Mean Absolute Error</button>
+            </div>
+        </div>
+        <a id="curr_loss_info">Current loss function: </a>
     </nav>
 
     <div class="row" style="margin-top:1em">
@@ -46,7 +58,7 @@
                 <div class="form-group row">
                     <label for="lr_input" class="col-sm-4 col-form-label">Learning rate: </label>
                     <div class="col-sm-6">
-                        <input type="number" id="lr_input" class="form-control" value="1e-6">
+                        <input type="number" id="lr_input" class="form-control" value="1e-7">
                     </div>
                 </div>
                 <div class="form-group row">
