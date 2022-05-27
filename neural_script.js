@@ -227,7 +227,7 @@ function StartUpdating() {
     }, refresh_every_in_ms)
 }
 
-var selected_loss_fn = 2
+var selected_loss_fn = 0
 var input_size = 25
 var current_weights_selected = 2
 var refresh_every_in_ms = 200
